@@ -1,0 +1,26 @@
+.event-image {
+  width: 80px;
+  height: 60px;
+  object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
+  border-radius: 5px;
+}
+
+.image-placeholder {
+  width: 80px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  color: #888;
+}
+.clickable {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.clickable:hover {
+  transform: scale(1.1);
+}

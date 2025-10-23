@@ -1,0 +1,69 @@
+<div>
+  <h2>Eventos</h2>  
+<!-- Tabla para mostrar los eventos -->
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+           <th scope="col">Imagen</th> 
+          <th scope="col">Nombre del Evento</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Ubicación</th>
+          <th scope="col">Organizador</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Iteramos sobre la lista de eventos FILTRADOS -->
+        <tr *ngFor="let event of filteredEvents; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+           <td>
+            <!-- Si el evento TIENE imageUrl, muestra la imagen -->
+              <img *ngIf="event.imageUrl" 
+              [src]="event.imageUrl" 
+              alt="Imagen de {{ event.name }}">
+            
+            <!-- Si el evento NO TIENE imageUrl, muestra un placeholder o nada -->
+            <div *ngIf="!event.imageUrl" class="image-placeholder">
+              Sin imagen
+            </div>
+          </td>
+          <td>{{ event.name }}</td>
+          <!-- Usamos el pipe 'date' para formatear la fecha -->
+          <td>{{ event.eventDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ event.location }}</td>
+          <td>{{ event.organizer.name }}</td>
+            <td>
+              <!-- Botón Ver con icono de ojo -->
+              <button class="btn btn-sm btn-outline-info me-2" title="Ver Detalles">
+                <i class="bi bi-eye-fill"></i>
+              </button>
+
+              <!-- Botón Editar con icono de lápiz -->
+              <button class="btn btn-sm btn-outline-warning me-2" title="Editar Evento" [routerLink]="['/event/edit', event.id]">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              
+              <!-- Botón para subir imagen con icono de cámara -->
+              <label class="btn btn-sm btn-outline-success me-2" title="Subir Imagen">
+                <i class="bi bi-camera-fill"></i>
+                <input type="file">
+              </label>
+
+              <!-- Botón Eliminar con icono de basura -->
+              <button class="btn btn-sm btn-outline-danger" title="Eliminar Evento">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </td>
+        </tr>
+        
+        <!-- Mensaje para cuando no hay resultados -->
+        <tr *ngIf="filteredEvents.length === 0">
+          <td colspan="6" class="text-center">No se encontraron eventos.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
