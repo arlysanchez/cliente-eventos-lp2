@@ -1,6 +1,23 @@
-<div>
-  <h2>Eventos</h2>  
-<!-- Tabla para mostrar los eventos -->
+<div class="container mt-4">
+  <h2>Eventos</h2>
+  <hr>
+
+  <div class="mb-4 row">
+    <div class="col-md-8">
+      <!-- Usamos (input) para una búsqueda en tiempo real -->
+      <input 
+        [(ngModel)]="searchEventName" 
+        (input)="searchEvent()"
+        type="text" 
+        class="form-control" 
+        placeholder="Buscar evento por nombre...">
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-success w-100" (click)="goToNewEvent()">Nuevo Evento +</button>
+    </div>
+  </div>
+
+  <!-- Tabla para mostrar los eventos -->
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead class="table-dark">
@@ -22,7 +39,9 @@
             <!-- Si el evento TIENE imageUrl, muestra la imagen -->
               <img *ngIf="event.imageUrl" 
               [src]="event.imageUrl" 
-              alt="Imagen de {{ event.name }}">
+              alt="Imagen de {{ event.name }}" 
+              class="event-image clickable"
+              (click)="openImageModal(event)">
             
             <!-- Si el evento NO TIENE imageUrl, muestra un placeholder o nada -->
             <div *ngIf="!event.imageUrl" class="image-placeholder">
@@ -48,11 +67,11 @@
               <!-- Botón para subir imagen con icono de cámara -->
               <label class="btn btn-sm btn-outline-success me-2" title="Subir Imagen">
                 <i class="bi bi-camera-fill"></i>
-                <input type="file">
+                <input type="file" (change)="onFileSelected($event, event.id)" hidden>
               </label>
 
               <!-- Botón Eliminar con icono de basura -->
-              <button class="btn btn-sm btn-outline-danger" title="Eliminar Evento">
+              <button class="btn btn-sm btn-outline-danger" title="Eliminar Evento" (click)="deleteEvent(event.id, event.name)">
                 <i class="bi bi-trash-fill"></i>
               </button>
             </td>
@@ -65,5 +84,21 @@
       </tbody>
     </table>
   </div>
-
+</div>
+<!--Modal de previsulaizacion-->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imagePreviewModalLabel">{{ selectedEventForModal?.name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img *ngIf="selectedEventForModal?.imageUrl" 
+             [src]="selectedEventForModal?.imageUrl" 
+             class="img-fluid" 
+             alt="Vista previa de la imagen">
+      </div>
+    </div>
+  </div>
 </div>

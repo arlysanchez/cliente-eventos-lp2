@@ -16,6 +16,28 @@ export class EventService {
    getEvents():Observable<IEvent[]>{
     return this.http.get<IEvent[]>(this.apiUrl);
    }
+   //Crear un nuevo evento
+   createEvent(eventData:Partial<IEvent>):Observable<IEvent>{
+    return this.http.post<IEvent>(this.apiUrl,eventData);
+   }
+    //Eliminar un evento por su ID
+   deleteEvent(eventId:number):Observable<void>{
+   return this.http.delete<void>(`${this.apiUrl}/${eventId}`);
+   }
+  //Actualizar un evento existente
+   updateEvent(eventId:number, eventData:Partial<IEvent>)
+   :Observable<IEvent>{
+    return this.http.put<IEvent>(`${this.apiUrl}/${eventId}`, eventData);
+   }
 
-
+   uploadEventImage(eventId:number, file:File):Observable<IEvent>{
+    const formData = new FormData();
+    formData.append('file', file);  // La clave 'file' debe coincidir con @RequestParam("file") en el backend
+    return this.http.post<IEvent>
+    (`${this.apiUrl}/${eventId}/upload-image`, formData);
+  }
+   
+   getEventById(eventId: number): Observable<IEvent> {
+    return this.http.get<IEvent>(`${this.apiUrl}/${eventId}`);
+  }
 }

@@ -1,0 +1,69 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <!-- Título dinámico -->
+    <h3>{{ isEditMode ? 'Editar Evento' : 'Crear Nuevo Evento' }}</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Campo Nombre -->
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre del Evento</label>
+          <input type="text" id="name" class="form-control" formControlName="name">
+          <div *ngIf="eventForm.get('name')?.invalid && eventForm.get('name')?.touched" class="text-danger mt-1">
+            <small *ngIf="eventForm.get('name')?.errors?.['required']">El nombre es requerido.</small>
+            <small *ngIf="eventForm.get('name')?.errors?.['minlength']">El nombre debe tener al menos 5 caracteres.</small>
+          </div>
+        </div>
+
+        <!-- Campo Descripción -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Descripción</label>
+          <textarea id="description" class="form-control" formControlName="description" rows="3"></textarea>
+          <div *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched" class="text-danger mt-1">
+            <small>La descripción es requerida.</small>
+          </div>
+        </div>
+
+        <!-- Campo Fecha y Hora -->
+        <div class="mb-3">
+          <label for="eventDate" class="form-label">Fecha y Hora del Evento</label>
+          <input type="datetime-local" id="eventDate" class="form-control" formControlName="eventDate">
+          <div *ngIf="eventForm.get('eventDate')?.invalid && eventForm.get('eventDate')?.touched" class="text-danger mt-1">
+            <small>La fecha es requerida.</small>
+          </div>
+        </div>
+
+        <!-- Campo Ubicación -->
+        <div class="mb-3">
+          <label for="location" class="form-label">Ubicación</label>
+          <input type="text" id="location" class="form-control" formControlName="location">
+          <div *ngIf="eventForm.get('location')?.invalid && eventForm.get('location')?.touched" class="text-danger mt-1">
+            <small>La ubicación es requerida.</small>
+          </div>
+        </div>
+
+        <!-- Campo Presupuesto -->
+        <div class="mb-3">
+          <label for="budget" class="form-label">Presupuesto</label>
+          <input type="number" id="budget" class="form-control" formControlName="budget">
+          <div *ngIf="eventForm.get('budget')?.invalid && eventForm.get('budget')?.touched" class="text-danger mt-1">
+            <small *ngIf="eventForm.get('budget')?.errors?.['required']">El presupuesto es requerido.</small>
+            <small *ngIf="eventForm.get('budget')?.errors?.['min']">El presupuesto no puede ser negativo.</small>
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-secondary me-2" [routerLink]="['/events']">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid || isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+             {{ isLoading ? 'Guardando...' : (isEditMode ? 'Actualizar Evento' : 'Guardar Evento') }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
