@@ -38,6 +38,6 @@ export class EventService {
   }
    
    getEventById(eventId: number): Observable<IEvent> {
-    return this.http.get<IEvent>(`${this.apiUrl}/${eventId}`);
+    return this.http.get<IEvent>(`${this.apiUrl}/id/${eventId}`);
   }
 }
